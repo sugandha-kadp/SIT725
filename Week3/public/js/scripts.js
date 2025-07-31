@@ -15,6 +15,19 @@ const cardList = [
 const clickMe = () => {
   alert("Thanks for clicking me. Hope you have a nice day!");
 };
+
+const submitForm = () => {
+  let formData = {};
+  formData.first_name = $("#first_name").val();
+  formData.last_name = $("#last_name").val();
+  formData.password = $("#password").val();
+  formData.email = $("#email").val();
+  console.log("Form Data Submitted: ", formData);
+  
+  // Show toast notification
+  M.toast({html: 'Form submitted successfully!', classes: 'green'});
+};
+
 const addCards = (items) => {
   items.forEach((item) => {
     let itemToAppend =
@@ -41,8 +54,39 @@ const addCards = (items) => {
 };
 $(document).ready(function () {
   $(".materialboxed").materialbox();
-  $("#clickMeButton").click(() => {
-    clickMe();
+  $(".modal").modal();
+  
+  // Initialize Floating Action Button
+  $('.fixed-action-btn').floatingActionButton({
+    direction: 'left',
+    hoverEnabled: false
   });
+  
+  $("#clickMeButton").click(() => {
+    $("#modal1").modal("open");
+  });
+  $("#formSubmit").click(() => {
+    submitForm();
+    $("#modal1").modal("close");
+  });
+  
+  // Navigation menu button click handler
+  $("#navMenuButton").click((e) => {
+    e.preventDefault();
+    M.toast({html: 'Navigation menu clicked!', classes: 'blue'});
+  });
+  
+  // Preloader toggle functionality
+  $("#togglePreloader").click(() => {
+    const preloader = $("#preloader");
+    if (preloader.hasClass("active")) {
+      preloader.removeClass("active");
+      M.toast({html: 'Preloader stopped!', classes: 'red'});
+    } else {
+      preloader.addClass("active");
+      M.toast({html: 'Preloader started!', classes: 'green'});
+    }
+  });
+  
   addCards(cardList);
 });
